@@ -13,8 +13,8 @@ class View {
       for(let i = 0; i < 3; i++) {
         for(let j = 0; j < 3; j++) {
           const li = document.createElement("li");
-          li.setAttribute("data-pos", `[${i},${j}]`);
-         
+          // li.setAttribute("data-pos", `[${i},${j}]`); //[0,1]
+          li.dataset.pos = JSON.stringify([i,j]);
           ul.appendChild(li);
 
         }
@@ -24,9 +24,16 @@ class View {
   }
   
   handleClick(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    let square = e.target // the li that i clicked on
+    this.makeMove(square);
   }
 
   makeMove(square) {
+    const player = this.game.currentPlayer
+    this.game.playMove(JSON.parse(square.dataset.pos));
+    
   }
   
   handleGameOver() {
